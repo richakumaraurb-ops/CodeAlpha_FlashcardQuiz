@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI FlashLearn - AI Tutor</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    min-height: 100vh;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #111827;
+    color: white;
+    padding: 25px 15px;
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 35px;
+    padding-left: 10px;
+}
+
+.brand span {
+    color: #818cf8;
+}
+
+.menu button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    text-align: left;
+    padding: 13px 14px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.menu button:hover,
+.menu button.active {
+    background: #312e81;
+    color: white;
+}
+
+.main {
+    margin-left: 240px;
+    padding: 35px;
+}
+
+.topbar {
+    margin-bottom: 25px;
+}
+
+.topbar h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.topbar p {
+    color: #64748b;
+}
+
+.ai-container {
+    max-width: 900px;
+}
+
+.ai-card {
+    background: white;
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.ai-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 15px;
+    background: #eef2ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.ai-header h2 {
+    margin-bottom: 5px;
+}
+
+.ai-header p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 130px;
+    padding: 15px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    font-size: 15px;
+    resize: vertical;
+    outline: none;
+    font-family: Arial, sans-serif;
+}
+
+textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.action-btn {
+    border: none;
+    padding: 12px 18px;
+    border-radius: 10px;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.action-btn:hover {
+    background: #3730a3;
+}
+
+.clear-btn {
+    background: #64748b;
+}
+
+.clear-btn:hover {
+    background: #475569;
+}
+
+.response {
+    margin-top: 25px;
+    padding: 22px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    line-height: 1.7;
+    display: none;
+}
+
+.response h3 {
+    margin-bottom: 10px;
+    color: #4f46e5;
+}
+
+.response p {
+    color: #475569;
+    white-space: pre-wrap;
+}
+
+.quick-topics {
+    margin-top: 20px;
+}
+
+.quick-topics h3 {
+    margin-bottom: 12px;
+}
+
+.topic-btn {
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 9px 14px;
+    border-radius: 20px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.topic-btn:hover {
+    border-color: #6366f1;
+    background: #eef2ff;
+}
+
+@media(max-width:650px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .topbar h1 {
+        font-size: 25px;
+    }
+
+    .ai-card {
+        padding: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="brand">
+        🧠 AI <span>FlashLearn</span>
+    </div>
+
+    <div class="menu">
+
+        <button onclick="goDashboard()">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="goFlashcards()">
+            🗂️ Flashcards
+        </button>
+
+        <button onclick="goQuiz()">
+            🎯 Quiz
+        </button>
+
+        <button class="active">
+            🤖 AI Tutor
+        </button>
+
+        <button onclick="goProgress()">
+            📊 Progress
+        </button>
+
+        <button onclick="goFavorites()">
+            ⭐ Favorites
+        </button>
+
+        <button onclick="goSettings()">
+            ⚙️ Settings
+        </button>
+
+    </div>
+
+</div>
+
+
+<div class="main">
+
+    <div class="topbar">
+
+        <h1>🤖 AI Study Tutor</h1>
+
+        <p>
+            Ask anything and learn with your personal AI tutor.
+        </p>
+
+    </div>
+
+
+    <div class="ai-container">
+
+        <div class="ai-card">
+
+            <div class="ai-header">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div>
+                    <h2>AI Learning Assistant</h2>
+
+                    <p>
+                        Ask a question, request an explanation or practice.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <label>
+                What do you want to learn?
+            </label>
+
+            <textarea
+                id="topicInput"
+                placeholder="Example: Explain JavaScript functions in simple words..."></textarea>
+
+
+            <div class="buttons">
+
+                <button
+                    class="action-btn"
+                    onclick="askAI('explain')">
+                    💡 Explain
+                </button>
+
+                <button
+                    class="action-btn"
+                    onclick="askAI('example')">
+                    📝 Give Example
+                </button>
+
+                <button
+                    class="action-btn"
+                    onclick="askAI('questions')">
+                    🎯 Practice Questions
+                </button>
+
+                <button
+                    class="action-btn clear-btn"
+                    onclick="clearResponse()">
+                    Clear
+                </button>
+
+            </div>
+
+
+            <div id="responseBox" class="response">
+
+                <h3 id="responseTitle">
+                    🤖 AI Response
+                </h3>
+
+                <p id="responseText"></p>
+
+            </div>
+
+
+            <div class="quick-topics">
+
+                <h3>⚡ Quick Topics</h3>
+
+                <button class="topic-btn"
+                    onclick="setTopic('HTML')">
+                    HTML
+                </button>
+
+                <button class="topic-btn"
+                    onclick="setTopic('CSS')">
+                    CSS
+                </button>
+
+                <button class="topic-btn"
+                    onclick="setTopic('JavaScript')">
+                    JavaScript
+                </button>
+
+                <button class="topic-btn"
+                    onclick="setTopic('Python')">
+                    Python
+                </button>
+
+                <button class="topic-btn"
+                    onclick="setTopic('SQL')">
+                    SQL
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+async function askAI(type) {
+
+    const input = document.getElementById("topicInput");
+    const responseBox = document.getElementById("responseBox");
+    const responseTitle = document.getElementById("responseTitle");
+    const responseText = document.getElementById("responseText");
+
+    const topic = input.value.trim();
+
+    if (topic === "") {
+        alert("Please enter a question first.");
+        return;
+    }
+
+    responseBox.style.display = "block";
+    responseTitle.textContent = "🤖 AI is thinking...";
+    responseText.textContent = "Please wait...";
+
+    let question = topic;
+
+    if (type === "explain") {
+
+        question =
+            "Explain this topic to a beginner in simple English. " +
+            "Use short points and a simple example. Topic: " + topic;
+
+    }
+
+    if (type === "example") {
+
+        question =
+            "Give a simple real-world and coding example for this topic. " +
+            "Explain the example in beginner-friendly language. Topic: " + topic;
+
+    }
+
+    if (type === "questions") {
+
+        question =
+            "Create 5 beginner-friendly practice questions about this topic. " +
+            "Include answers after the questions. Topic: " + topic;
+
+    }
+
+    try {
+
+        const response = await fetch("http://127.0.0.1:5000/ask", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                question: question
+            })
+
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Something went wrong.");
+        }
+
+        responseTitle.textContent = "🤖 AI Response";
+
+        responseText.textContent = data.answer;
+
+    } catch (error) {
+
+        responseTitle.textContent = "❌ Error";
+
+        responseText.textContent =
+            "AI se connect nahi ho pa raha.\n\n" +
+            "Check karo ki Flask backend running hai.\n\n" +
+            "Error: " + error.message;
+
+    }
+
+}
+
+
+function setTopic(topic) {
+
+    document.getElementById("topicInput").value =
+        "Explain " + topic + " in simple words.";
+
+}
+
+
+function clearResponse() {
+
+    document.getElementById("topicInput").value = "";
+
+    document.getElementById("responseBox").style.display = "none";
+
+}
+
+
+function goDashboard() {
+    window.location.href = "dashboard.html";
+}
+
+
+function goFlashcards() {
+    window.location.href = "index.html";
+}
+
+
+function goQuiz() {
+    window.location.href = "quiz.html";
+}
+
+
+function goProgress() {
+    alert("📊 Progress Analytics is coming next!");
+}
+
+
+function goFavorites() {
+    alert("⭐ Favorites is coming next!");
+}
+
+
+function goSettings() {
+    alert("⚙️ Settings is coming next!");
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #dbeafe, #f5f3ff);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.container {
+    width: 100%;
+    max-width: 750px;
+    text-align: center;
+}
+
+h1 {
+    color: #1e293b;
+    font-size: 36px;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.container::before {
+    content: "LEARN • PRACTICE • REMEMBER";
+    display: block;
+    color: #6366f1;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.flashcard {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 50px 30px;
+    border-radius: 24px;
+    box-shadow: 0 15px 45px rgba(30, 41, 59, 0.12);
+    min-height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid white;
+    transition: transform 0.2s ease;
+}
+
+.flashcard:hover {
+    transform: translateY(-3px);
+}
+
+.flashcard h2 {
+    color: #1e293b;
+    font-size: 25px;
+    margin-bottom: 22px;
+}
+
+.flashcard p {
+    color: #475569;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+button {
+    border: none;
+    padding: 12px 22px;
+    margin: 7px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    background: #4f46e5;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background: #3730a3;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(79, 70, 229, 0.2);
+}
+
+#showAnswer {
+    align-self: center;
+    background: #0f766e;
+}
+
+#showAnswer:hover {
+    background: #115e59;
+}
+
+.navigation {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.navigation span {
+    color: #334155;
+    font-weight: 700;
+    font-size: 16px;
+    min-width: 55px;
+}
+
+.navigation button {
+    background: #334155;
+}
+
+.navigation button:hover {
+    background: #0f172a;
+}
+
+.actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+#addCard {
+    background: #059669;
+}
+
+#addCard:hover {
+    background: #047857;
+}
+
+#editCard {
+    background: #d97706;
+}
+
+#editCard:hover {
+    background: #b45309;
+}
+
+#deleteCard {
+    background: #dc2626;
+}
+
+#deleteCard:hover {
+    background: #b91c1c;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.card-form {
+    background: white;
+    margin-top: 25px;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(30, 41, 59, 0.1);
+}
+
+.card-form h2 {
+    color: #1e293b;
+    margin-bottom: 15px;
+}
+
+.card-form input,
+.card-form textarea {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+}
+
+.card-form input:focus,
+.card-form textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.card-form textarea {
+    height: 110px;
+    resize: vertical;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 29px;
+    }
+
+    .flashcard {
+        padding: 35px 20px;
+        min-height: 230px;
+    }
+
+    .flashcard h2 {
+        font-size: 21px;
+    }
+
+    .navigation {
+        gap: 5px;
+    }
+
+    button {
+        padding: 11px 14px;
+        margin: 5px;
+    }
+
+    .card-form {
+        padding: 20px;
+    }
+}
+/* Dark Mode */
+
+body.dark-mode {
+    background: #0f172a;
+}
+
+body.dark-mode h1 {
+    color: #f8fafc;
+}
+
+body.dark-mode .container::before {
+    color: #a5b4fc;
+}
+
+body.dark-mode .flashcard {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .flashcard h2 {
+    color: #f8fafc;
+}
+
+body.dark-mode .flashcard p {
+    color: #cbd5e1;
+}
+
+body.dark-mode .navigation span {
+    color: #f8fafc;
+}
+
+body.dark-mode .card-form {
+    background: #1e293b;
+}
+
+body.dark-mode .card-form h2 {
+    color: #f8fafc;
+}
+
+body.dark-mode .card-form input,
+body.dark-mode .card-form textarea {
+    background: #0f172a;
+    color: white;
+    border-color: #475569;
+}
+
+#darkModeToggle {
+    margin-bottom: 15px;
+}

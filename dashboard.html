@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI FlashLearn - Dashboard</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+    min-height: 100vh;
+    transition: 0.3s;
+}
+
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 240px;
+    height: 100vh;
+    background: #111827;
+    color: white;
+    padding: 25px 15px;
+    z-index: 10;
+}
+
+.brand {
+    font-size: 21px;
+    font-weight: bold;
+    margin-bottom: 35px;
+    padding-left: 10px;
+}
+
+.brand span {
+    color: #818cf8;
+}
+
+.menu button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #cbd5e1;
+    text-align: left;
+    padding: 13px 14px;
+    border-radius: 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.menu button:hover,
+.menu button.active {
+    background: #312e81;
+    color: white;
+}
+
+.logout {
+    position: absolute;
+    bottom: 25px;
+    left: 15px;
+    width: calc(100% - 30px);
+}
+
+.logout button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #dc2626;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+
+/* MAIN */
+
+.main {
+    margin-left: 240px;
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.welcome h1 {
+    font-size: 30px;
+    margin-bottom: 6px;
+}
+
+.welcome p {
+    color: #64748b;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile {
+    background: white;
+    padding: 10px 16px;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    font-size: 14px;
+}
+
+
+/* DARK MODE BUTTON */
+
+.top-theme-button {
+    border: none;
+    padding: 10px 15px;
+    border-radius: 12px;
+    background: #111827;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.top-theme-button:hover {
+    background: #312e81;
+    transform: translateY(-2px);
+}
+
+
+/* STATS */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+    padding: 22px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(15,23,42,0.06);
+    transition: 0.25s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+.stat-icon {
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.stat-card h2 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    color: #64748b;
+    font-size: 13px;
+}
+
+
+/* CONTENT */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 6px 20px rgba(15,23,42,0.06);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-header h2 {
+    font-size: 19px;
+}
+
+.card-header span {
+    font-size: 12px;
+    color: #6366f1;
+    font-weight: bold;
+}
+
+
+/* PROGRESS */
+
+.progress-item {
+    margin-bottom: 20px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 9px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: #6366f1;
+}
+
+
+/* AI */
+
+.ai-card {
+    background: linear-gradient(135deg,#4f46e5,#7c3aed);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.ai-card::after {
+    content: "🤖";
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+    font-size: 70px;
+    opacity: 0.15;
+}
+
+.ai-card h2 {
+    margin-bottom: 10px;
+}
+
+.ai-card p {
+    color: #e0e7ff;
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 80%;
+}
+
+.ai-button {
+    margin-top: 18px;
+    padding: 11px 18px;
+    border: none;
+    border-radius: 10px;
+    background: white;
+    color: #4f46e5;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* QUICK ACTIONS */
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+}
+
+.quick-btn {
+    padding: 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #f8fafc;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.2s;
+}
+
+.quick-btn:hover {
+    background: #eef2ff;
+    border-color: #818cf8;
+    transform: translateY(-2px);
+}
+
+.quick-btn strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.quick-btn span {
+    font-size: 12px;
+    color: #64748b;
+}
+
+
+/* QUIZ HISTORY */
+
+.quiz-history {
+    margin-top: 20px;
+}
+
+.quiz-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 0;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 14px;
+}
+
+.quiz-row:last-child {
+    border-bottom: none;
+}
+
+.score-good {
+    color: #16a34a;
+    font-weight: bold;
+}
+
+.score-low {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+
+/* DARK MODE */
+
+body.dark-mode {
+    background: #0f172a;
+    color: #e2e8f0;
+}
+
+body.dark-mode .sidebar {
+    background: #020617;
+}
+
+body.dark-mode .welcome p {
+    color: #94a3b8;
+}
+
+body.dark-mode .profile {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .card {
+    background: #1e293b;
+    color: #e2e8f0;
+}
+
+body.dark-mode .stat-card p {
+    color: #94a3b8;
+}
+
+body.dark-mode .progress-bar {
+    background: #334155;
+}
+
+body.dark-mode .quick-btn {
+    background: #0f172a;
+    border-color: #334155;
+    color: #e2e8f0;
+}
+
+body.dark-mode .quick-btn:hover {
+    background: #312e81;
+}
+
+body.dark-mode .quick-btn span {
+    color: #94a3b8;
+}
+
+body.dark-mode .quiz-row {
+    border-color: #334155;
+}
+
+body.dark-mode .top-theme-button {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+body.dark-mode .top-theme-button:hover {
+    background: #cbd5e1;
+}
+
+body.dark-mode .mobile-nav {
+    background: #020617;
+    border-color: #334155;
+}
+
+body.dark-mode .mobile-nav button {
+    color: #cbd5e1;
+}
+
+
+/* MOBILE */
+
+.mobile-nav {
+    display: none;
+}
+
+@media (max-width:900px) {
+
+    .stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width:650px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+        padding-bottom: 85px;
+    }
+
+    .topbar {
+        align-items: flex-start;
+    }
+
+    .top-actions {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+    }
+
+    .top-theme-button {
+        padding: 8px 10px;
+        font-size: 11px;
+    }
+
+    .welcome h1 {
+        font-size: 24px;
+    }
+
+    .profile {
+        font-size: 11px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 17px;
+    }
+
+    .stat-card h2 {
+        font-size: 23px;
+    }
+
+    .quick-actions {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .mobile-nav {
+        position: fixed;
+        display: flex;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-top: 1px solid #e2e8f0;
+        justify-content: space-around;
+        padding: 10px 5px;
+        z-index: 20;
+    }
+
+    .mobile-nav button {
+        border: none;
+        background: transparent;
+        font-size: 12px;
+        color: #64748b;
+        cursor: pointer;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="brand">
+        🧠 AI <span>FlashLearn</span>
+    </div>
+
+    <div class="menu">
+
+        <button class="active" onclick="goDashboard()">
+            🏠 Dashboard
+        </button>
+
+        <button onclick="goFlashcards()">
+            🗂️ Flashcards
+        </button>
+
+        <button onclick="goQuiz()">
+            🎯 Quiz
+        </button>
+
+        <button onclick="goAI()">
+            🤖 AI Tutor
+        </button>
+
+        <button onclick="goProgress()">
+            📊 Progress
+        </button>
+
+        <button onclick="goFavorites()">
+            ⭐ Favorites
+        </button>
+
+        <button onclick="goSettings()">
+            ⚙️ Settings
+        </button>
+
+        <button onclick="toggleDarkMode()">
+            🌙 Dark / Light Mode
+        </button>
+
+    </div>
+
+    <div class="logout">
+
+        <button onclick="logout()">
+            🚪 Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+
+    <div class="topbar">
+
+        <div class="welcome">
+
+            <h1>
+                Welcome back 👋
+            </h1>
+
+            <p>
+                Keep learning and improve your skills.
+            </p>
+
+        </div>
+
+
+        <div class="top-actions">
+
+            <button
+                class="top-theme-button"
+                onclick="toggleDarkMode()"
+                id="topThemeButton">
+
+                🌙 Dark Mode
+
+            </button>
+
+            <div
+                class="profile"
+                id="profileEmail">
+
+                👤 Student
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🗂️
+            </div>
+
+            <h2 id="totalCards">
+                0
+            </h2>
+
+            <p>
+                Total Flashcards
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🎯
+            </div>
+
+            <h2 id="accuracyValue">
+                0%
+            </h2>
+
+            <p>
+                Latest Accuracy
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📝
+            </div>
+
+            <h2 id="quizCount">
+                0
+            </h2>
+
+            <p>
+                Quizzes Taken
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🔥
+            </div>
+
+            <h2 id="streakValue">
+                0
+            </h2>
+
+            <p>
+                Learning Streak
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="content-grid">
+
+
+        <div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        📚 Learning Progress
+                    </h2>
+
+                    <span>
+                        LIVE
+                    </span>
+
+                </div>
+
+
+                <div class="progress-item">
+
+                    <div class="progress-top">
+
+                        <span>HTML</span>
+
+                        <span>80%</span>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width:80%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-item">
+
+                    <div class="progress-top">
+
+                        <span>CSS</span>
+
+                        <span>65%</span>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width:65%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-item">
+
+                    <div class="progress-top">
+
+                        <span>JavaScript</span>
+
+                        <span>45%</span>
+
+                    </div>
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress-fill"
+                            style="width:45%">
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUIZ HISTORY -->
+
+            <div class="card quiz-history">
+
+                <div class="card-header">
+
+                    <h2>
+                        🎯 Recent Quiz Results
+                    </h2>
+
+                    <span>
+                        HISTORY
+                    </span>
+
+                </div>
+
+                <div id="historyContainer">
+
+                    <p style="color:#64748b;">
+                        No quiz completed yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div>
+
+
+            <!-- AI -->
+
+            <div class="card ai-card">
+
+                <h2>
+                    🤖 AI Study Assistant
+                </h2>
+
+                <p>
+                    Get explanations, generate flashcards,
+                    practice questions and learn difficult
+                    topics with AI.
+                </p>
+
+                <button
+                    class="ai-button"
+                    onclick="goAI()">
+
+                    Start AI Tutor →
+
+                </button>
+
+            </div>
+
+
+            <br>
+
+
+            <!-- QUICK ACTIONS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h2>
+                        ⚡ Quick Actions
+                    </h2>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="goFlashcards()">
+
+                        <strong>
+                            🗂️ Study Flashcards
+                        </strong>
+
+                        <span>
+                            Review your cards
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="goQuiz()">
+
+                        <strong>
+                            🎯 Take Quiz
+                        </strong>
+
+                        <span>
+                            Test your knowledge
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="goAI()">
+
+                        <strong>
+                            🤖 Ask AI
+                        </strong>
+
+                        <span>
+                            Get instant help
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        class="quick-btn"
+                        onclick="goProgress()">
+
+                        <strong>
+                            📊 View Progress
+                        </strong>
+
+                        <span>
+                            Check your performance
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MOBILE NAV -->
+
+<div class="mobile-nav">
+
+    <button onclick="goDashboard()">
+        🏠<br>Home
+    </button>
+
+    <button onclick="goFlashcards()">
+        🗂️<br>Cards
+    </button>
+
+    <button onclick="goQuiz()">
+        🎯<br>Quiz
+    </button>
+
+    <button onclick="goAI()">
+        🤖<br>AI
+    </button>
+
+    <button onclick="goProfile()">
+        👤<br>Profile
+    </button>
+
+</div>
+
+
+<script>
+
+
+/* USER */
+
+const userEmail =
+    localStorage.getItem("userEmail");
+
+if (userEmail) {
+
+    document.getElementById("profileEmail")
+        .textContent = "👤 " + userEmail;
+
+}
+
+
+/* FLASHCARDS */
+
+const savedCards =
+    JSON.parse(
+        localStorage.getItem("flashcards") || "[]"
+    );
+
+document.getElementById("totalCards")
+    .textContent = savedCards.length;
+
+
+/* QUIZ */
+
+const quizHistory =
+    JSON.parse(
+        localStorage.getItem("quizHistory") || "[]"
+    );
+
+const lastAccuracy =
+    localStorage.getItem("lastQuizAccuracy");
+
+if (lastAccuracy !== null) {
+
+    document.getElementById("accuracyValue")
+        .textContent = lastAccuracy + "%";
+
+}
+
+document.getElementById("quizCount")
+    .textContent = quizHistory.length;
+
+
+/* STREAK */
+
+if (quizHistory.length > 0) {
+
+    document.getElementById("streakValue")
+        .textContent = "🔥 1";
+
+}
+
+
+/* QUIZ HISTORY */
+
+const historyContainer =
+    document.getElementById("historyContainer");
+
+if (quizHistory.length > 0) {
+
+    historyContainer.innerHTML = "";
+
+    const recent =
+        quizHistory.slice(-5).reverse();
+
+    recent.forEach(function(quiz) {
+
+        const row =
+            document.createElement("div");
+
+        row.className = "quiz-row";
+
+        const scoreClass =
+            quiz.accuracy >= 70
+            ? "score-good"
+            : "score-low";
+
+        row.innerHTML = `
+
+            <span>
+                📅 ${quiz.date}
+            </span>
+
+            <span>
+                ${quiz.score}/${quiz.total}
+            </span>
+
+            <span class="${scoreClass}">
+                ${quiz.accuracy}%
+            </span>
+
+        `;
+
+        historyContainer.appendChild(row);
+
+    });
+
+}
+
+
+/* NAVIGATION */
+
+function goDashboard() {
+    window.location.href = "dashboard.html";
+}
+
+function goFlashcards() {
+    window.location.href = "index.html";
+}
+
+function goQuiz() {
+    window.location.href = "quiz.html";
+}
+
+function goAI() {
+    alert("🤖 AI Tutor is coming next!");
+}
+
+function goProgress() {
+    alert("📊 Detailed Progress Analytics is coming next!");
+}
+
+function goFavorites() {
+    alert("⭐ Favorites section is coming next!");
+}
+
+function goSettings() {
+    alert("⚙️ Settings section is coming next!");
+}
+
+function goProfile() {
+    alert("👤 Profile section is coming next!");
+}
+
+
+/* DARK / LIGHT MODE */
+
+function toggleDarkMode() {
+
+    document.body.classList.toggle("dark-mode");
+
+    const isDark =
+        document.body.classList.contains("dark-mode");
+
+    const topButton =
+        document.getElementById("topThemeButton");
+
+    if (isDark) {
+
+        localStorage.setItem(
+            "dashboardTheme",
+            "dark"
+        );
+
+        topButton.textContent =
+            "☀️ Light Mode";
+
+    } else {
+
+        localStorage.setItem(
+            "dashboardTheme",
+            "light"
+        );
+
+        topButton.textContent =
+            "🌙 Dark Mode";
+    }
+
+}
+
+
+/* LOAD SAVED THEME */
+
+if (
+    localStorage.getItem("dashboardTheme")
+    === "dark"
+) {
+
+    document.body.classList.add("dark-mode");
+
+    document.getElementById("topThemeButton")
+        .textContent =
+        "☀️ Light Mode";
+
+}
+
+
+/* LOGOUT */
+
+function logout() {
+
+    const confirmLogout =
+        confirm(
+            "Are you sure you want to logout?"
+        );
+
+    if (confirmLogout) {
+
+        localStorage.removeItem("loggedIn");
+
+        localStorage.removeItem("userEmail");
+
+        window.location.href = "login.html";
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
